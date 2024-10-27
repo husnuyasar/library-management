@@ -8,7 +8,9 @@ export class BooksRepository extends Repository<Books> {
     }
       
     async findAll() {
-        return this.find();
+        return this.find({
+            order: {name : 'ASC'}
+        });
     }
 
     async findById(id : number) {

@@ -9,7 +9,9 @@ export class UsersRepository extends Repository<Users>{
     }
     
     async findAll() {
-      return this.find();
+      return this.find({
+        order: {name : 'ASC'}
+      });
     }
   
     async findById(id: number) {
