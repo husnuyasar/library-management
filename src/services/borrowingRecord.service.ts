@@ -4,6 +4,7 @@ import { ReturnBookFilters } from "../interfaces/returnBookFilters.interface";
 import { BorrowingRecordsRepository } from "../repositories/borrowingRecord.repository";
 import { BooksService } from "./book.service";
 import { UsersService } from "./user.service";
+import { sumBy } from "lodash";
 
 export class BorrowingRecordsService {
     private borrowingRecordRepository = new BorrowingRecordsRepository();
@@ -64,9 +65,7 @@ export class BorrowingRecordsService {
     private async getRatingsForBook(bookId : number) : Promise<number> {
         const borrowingRecords = await this.borrowingRecordRepository.getAll({bookId ,returned: true} as ReturnBookFilters);
         if(borrowingRecords?.length>0) {
-            const totalRating = borrowingRecords.reduce((total, br)=> {
-                return total + (br.rating || 0);
-            }, 0);
+            const totalRating = sumBy(borrowingRecords,'rating');
             return totalRating / borrowingRecords.length;
         }
         return 0;
