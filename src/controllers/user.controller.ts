@@ -4,11 +4,7 @@ import { Request, Response, NextFunction } from "express";
 import { BorrowingRecordsService } from "../services/borrowingRecord.service";
 import { BorrowingRecordFilters } from "../interfaces/borrowingRecordFilters.interface";
 import { ReturnBookFilters } from "../interfaces/returnBookFilters.interface";
-
-interface UserResponse {
-  id: number;
-  name: string;
-}
+import { BaseResponse } from "../interfaces/baseResponse.interface";
 
 export class UsersController {
     private userService = new UsersService();
@@ -17,7 +13,7 @@ export class UsersController {
     async getAll(req: Request, res: Response, next: NextFunction) {
         try {
             const users = await this.userService.getAll();
-            const response: UserResponse[] = users?.map(user => ({
+            const response: BaseResponse[] = users?.map(user => ({
               id: user.id,
               name: user.name
             })) || [];
@@ -48,7 +44,7 @@ export class UsersController {
           }
           const { name } = req.body;
           const newUser = await this.userService.create(name);
-          res.status(201).json(newUser);
+          res.status(201).send();
         } catch (error) {
           next(error);
         }
