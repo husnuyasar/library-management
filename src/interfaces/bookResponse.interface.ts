@@ -1,5 +1,5 @@
-export interface BookResponse {
-    id: number;
-    name: string;
-    averageRating: number;
+import { BaseResponse } from "./baseResponse.interface";
+
+export interface BookResponse extends BaseResponse {
+    score: number;
 }
