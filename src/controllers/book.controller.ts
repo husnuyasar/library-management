@@ -2,6 +2,7 @@ import { validationResult } from "express-validator";
 import { BooksService } from "../services/book.service";
 import { Request, Response, NextFunction } from "express";
 import { BookResponse } from "../interfaces/bookResponse.interface";
+import { BaseResponse } from "../interfaces/baseResponse.interface";
 
 export class BooksController {
     private bookService = new BooksService;
@@ -9,7 +10,7 @@ export class BooksController {
     async getAll(req : Request, res : Response, next : NextFunction) {
         try {
             const books = await this.bookService.getAll();
-            const response = books?.map(book => ({
+            const response : BaseResponse [] = books?.map(book => ({
               id: book.id,
               name: book.name
             })) || [];
@@ -33,7 +34,7 @@ export class BooksController {
             const response = {
               id: book.id,
               name: book.name,
-              averageRating: book.averageRating
+              score: book.averageRating
             } as BookResponse;
             res.json(response);
         } catch (error) {
@@ -49,7 +50,7 @@ export class BooksController {
           }
           const { name } = req.body;
           const newBook = await this.bookService.create(name);
-          res.status(201).json(newBook);
+          res.status(201).send();
         } catch (error) {
           next(error);
         }
