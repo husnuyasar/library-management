@@ -1,3 +1,5 @@
+import { BaseResponse } from "./baseResponse.interface";
+
 export interface UserBook {
     name: string;
     userScore?: number;
@@ -8,8 +10,6 @@ export interface UserBooks {
     present: UserBook[];
 }
 
-export interface UserResponse {
-    id: number;
-    name: string;
+export interface UserResponse extends BaseResponse{
     books: UserBooks;
 }
